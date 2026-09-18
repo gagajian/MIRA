@@ -51,9 +51,10 @@
   }
   h1{font-size:34px;line-height:1.25;font-weight:800;letter-spacing:.2px;margin-bottom:14px;}
   h1 .sub{font-weight:600;color:var(--muted);font-size:22px;display:block;margin-top:6px;}
-  .authors{font-size:17px;margin:10px 0 6px;}
+  .authors{font-size:17px;margin:10px 0 6px;line-height:1.85;}
   .authors a{margin:0 4px;}
-  .affil{font-size:15px;color:var(--muted);margin-top:8px;}
+  .authors sup,.affil sup{font-size:.72em;font-weight:600;}
+  .affil{font-size:15px;color:var(--muted);margin-top:8px;line-height:1.7;}
 
   .links-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:34px 0 8px;}
   .links-btns a{
@@ -180,9 +181,19 @@
       <span class="sub">Full-Duplex · Streaming Co-Speech Motion · Embodiment Cues</span>
     </h1>
     <p class="authors">
-      <a href="#">Author1</a>, <a href="#">Author2</a>, <a href="#">Author3</a>, <a href="#">Author4</a>
+      Lijian Lin<sup>1</sup>,
+      Ye Zhu<sup>1</sup>,
+      Fan Zhang<sup>1</sup>,
+      Yunfei Liu<sup>1</sup>,
+      Baofeng Li<sup>2</sup>,
+      Xianwen Zeng<sup>2</sup>,
+      Jianan Wang<sup>2</sup>,
+      Yu Li<sup>1</sup>
     </p>
-    <p class="affil">International Digital Economy Academy (IDEA)</p>
+    <p class="affil">
+      <sup>1</sup>International Digital Economy Academy &nbsp;&nbsp;
+      <sup>2</sup>Astribot
+    </p>
 
     <div class="links-btns">
       <a href="#" aria-disabled="true">📄 Paper <span class="soon">(soon)</span></a>
@@ -320,10 +331,9 @@
     <h2>BibTeX</h2>
     <pre><span class="comment">@misc</span>{mira2026,
   <span class="kw">title</span>={MIRA: Real-Time Full-Duplex Human--Robot Interaction for Embodied Companions},
-  <span class="kw">author</span>={Author1 and Author2 and Author3 and Author4},
-  <span class="kw">affiliation</span>={International Digital Economy Academy},
+  <span class="kw">author</span>={Lin, Lijian and Zhu, Ye and Zhang, Fan and Liu, Yunfei and Li, Baofeng and Zeng, Xianwen and Wang, Jianan and Li, Yu},
   <span class="kw">year</span>={2026},
-  <span class="kw">note</span>={Project homepage: \url{https://your-username.github.io/MIRA}}
+  <span class="kw">note</span>={Project homepage: \url{https://gagajian.github.io/MIRA/}}
 }</pre>
   </section>
 
@@ -331,7 +341,7 @@
 
 <footer>
   <div class="wrap">
-    MIRA · International Digital Economy Academy (IDEA) &middot;
+    MIRA · International Digital Economy Academy (IDEA) &amp; Astribot &middot;
     <a href="#">Homepage</a> &middot; <a href="#">Paper</a> &middot; <a href="#">Code</a>
   </div>
 </footer>
