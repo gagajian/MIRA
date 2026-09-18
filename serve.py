@@ -14,7 +14,11 @@ class RangeRequestHandler(SimpleHTTPRequestHandler):
     def send_head(self):
         path = self.translate_path(self.path)
         if os.path.isdir(path):
-            return super().send_head()
+            index = os.path.join(path, "index.html")
+            if os.path.isfile(index):
+                path = index
+            else:
+                return super().send_head()
         try:
             file_obj = open(path, "rb")
         except OSError:
@@ -56,6 +60,8 @@ class RangeRequestHandler(SimpleHTTPRequestHandler):
         return file_obj
 
     def copyfile(self, source, outputfile):
+        if not hasattr(self, "_range"):
+            return SimpleHTTPRequestHandler.copyfile(self, source, outputfile)
         start, end, _size = self._range
         remaining = end - start + 1
         while remaining > 0:

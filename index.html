@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MIRA: Real-Time Full-Duplex Human–Robot Interaction for Embodied Companions</title>
-<meta name="description" content="MIRA — a unified framework for real-time embodied companion interaction. Coordinating dialogue decisions, social behaviors, and streaming co-speech motion through an explicit embodiment-cue interface.">
+<!-- <meta name="description" content="MIRA — a unified framework for real-time embodied companion interaction. Coordinating dialogue decisions, social behaviors, and streaming co-speech motion through an explicit embodiment-cue interface."> -->
 <style>
   :root{
     --ink:#20262b;
@@ -37,19 +37,26 @@
     border-bottom:1px solid var(--line);
   }
   nav .wrap{display:flex;align-items:center;height:56px;justify-content:space-between;}
-  nav .brand{font-weight:700;letter-spacing:.3px;color:var(--ink);}
+  nav .brand{
+    display:flex;align-items:center;height:56px;overflow:hidden;
+    line-height:0;text-decoration:none;
+  }
+  nav .brand img{
+    display:block;height:44px;width:auto;
+  }
+  nav .brand:hover{opacity:.78;text-decoration:none;}
   nav .links{display:flex;gap:22px;font-size:14px;}
   nav .links a{color:var(--muted);}
   nav .links a:hover{color:var(--blue);text-decoration:none;}
 
   /* ---------- Header ---------- */
   header{padding:54px 0 16px;text-align:center;}
-  .venue{
-    display:inline-block;font-size:14px;font-weight:600;letter-spacing:.4px;
-    color:var(--coral);border:1px solid var(--coral);border-radius:999px;
-    padding:4px 14px;margin-bottom:22px;background:#fdf7f4;
-  }
   h1{font-size:34px;line-height:1.25;font-weight:800;letter-spacing:.2px;margin-bottom:14px;}
+  h1 .title-logo{
+    display:flex;justify-content:center;align-items:center;
+    height:64px;overflow:hidden;margin:0 auto 14px;
+  }
+  h1 .title-logo img{display:block;height:97px;width:auto;}
   h1 .sub{font-weight:600;color:var(--muted);font-size:22px;display:block;margin-top:6px;}
   .authors{font-size:17px;margin:10px 0 6px;line-height:1.85;}
   .authors a{margin:0 4px;}
@@ -75,14 +82,24 @@
   .lead{font-size:16.5px;max-width:900px;color:#2d3236;text-align:justify;}
 
   figure{margin:26px 0;}
-  figure img{width:100%;border:1px solid var(--line);border-radius:10px;}
+  figure img{width:100%;display:block;}
   figcaption{font-size:14px;color:var(--muted);margin-top:10px;text-align:justify;line-height:1.55;}
 
-  /* ---------- Feature / pipeline row ---------- */
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-  .card{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:20px;}
-  .card h3{font-size:17px;margin-bottom:8px;color:var(--blue);}
-  .card p{font-size:14.5px;color:#3b4146;text-align:justify;}
+  /* ---------- Highlights ---------- */
+  .hl{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:0 26px;padding:2px 0 6px;
+  }
+  .hl article{padding-top:14px;border-top:2px solid var(--ink);}
+  .hl h3{
+    font-size:16px;font-weight:800;color:var(--ink);
+    margin:0 0 2px;letter-spacing:.1px;line-height:1.2;
+  }
+  .hl .role{
+    display:block;font-size:12px;font-weight:600;color:var(--muted);
+    margin-bottom:10px;
+  }
+  .hl p{font-size:13.5px;color:#3b4146;margin:0;line-height:1.55;}
 
   /* ---------- Teaser clips / video swap ---------- */
   .teaser-clips{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0 0;}
@@ -107,25 +124,6 @@
     cursor:pointer;transition:background .15s,color .15s,border-color .15s;
   }
   .vidswap-arrow:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);}
-  .vidswap-seekrow{display:flex;align-items:center;gap:12px;margin-top:12px;}
-  .vidswap-seek{
-    -webkit-appearance:none;appearance:none;flex:1;height:28px;margin:0;
-    background:transparent;outline:none;cursor:pointer;
-  }
-  .vidswap-seek::-webkit-slider-runnable-track{
-    height:8px;border-radius:999px;background:var(--line);
-  }
-  .vidswap-seek::-moz-range-track{
-    height:8px;border-radius:999px;background:var(--line);
-  }
-  .vidswap-seek::-webkit-slider-thumb{
-    -webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;
-    background:var(--ink);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:grab;
-  }
-  .vidswap-seek::-moz-range-thumb{
-    width:18px;height:18px;border-radius:50%;background:var(--ink);border:2px solid #fff;cursor:grab;
-  }
-  .vidswap-time{font-size:13px;color:var(--muted);min-width:96px;font-variant-numeric:tabular-nums;}
   .vidswap-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px;}
   .vidswap-tabs button{
     border:1px solid var(--line);background:var(--soft);color:var(--muted);
@@ -149,8 +147,11 @@
 
   @media (max-width:760px){
     h1{font-size:27px;}
+    h1 .title-logo{height:50px;margin-bottom:10px;}
+    h1 .title-logo img{height:77px;}
     h1 .sub{font-size:18px;}
-    .grid2,.teaser-clips{grid-template-columns:1fr;}
+    .hl{grid-template-columns:1fr 1fr;gap:22px 24px;}
+    .teaser-clips{grid-template-columns:1fr;}
     .vidswap-arrow{width:36px;height:36px;}
     .links-btns a{flex:1 1 40%;justify-content:center;}
     nav .links{display:none;}
@@ -161,7 +162,9 @@
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#top">MIRA</a>
+    <a class="brand" href="#top" aria-label="MIRA">
+      <img src="assets/mira_logo2.png" alt="MIRA">
+    </a>
     <div class="links">
       <a href="#abstract">Abstract</a>
       <a href="#overview">System</a>
@@ -175,9 +178,11 @@
 
 <header id="top">
   <div class="wrap">
-    <span class="venue">Real-Time Embodied Companion Interaction</span>
     <h1>
-      MIRA: Real-Time Full-Duplex Human–Robot Interaction for Embodied Companions
+      <span class="title-logo">
+        <img src="assets/mira_logo2.png" alt="MIRA">
+      </span>
+      Real-Time Full-Duplex Human–Robot Interaction for Embodied Companions
       <span class="sub">Full-Duplex · Streaming Co-Speech Motion · Embodiment Cues</span>
     </h1>
     <p class="authors">
@@ -247,23 +252,27 @@
   <!-- Highlights / contributions -->
   <section id="highlights">
     <h2>Highlights</h2>
-    <div class="grid2">
-      <div class="card">
-        <h3>MIRA — Embodied interaction framework</h3>
-        <p>Coordinates dialogue decisions, social behaviors, and streaming co-speech motion through an explicit embodiment-cue interface and shared response identity.</p>
-      </div>
-      <div class="card">
-        <h3>CORTEX — Interaction controller</h3>
-        <p>Dual-timescale policy combining streaming response generation, deliberative turn admission, and local interruption handling, routing responses through the embodiment cue.</p>
-      </div>
-      <div class="card">
-        <h3>ROSCO — Robotic Streaming Co-speech Generator</h3>
-        <p>A robot-native prefix-conditioned diffusion model for streaming audio-to-joint motion generation, guided by RHPC to separate motion prediction from incremental physical emission.</p>
-      </div>
-      <div class="card">
-        <h3>Physical deployment on Astribot S1</h3>
-        <p>Validates motion quality, streaming performance, behavior coordination, and interruption handling in real-world human–robot interaction.</p>
-      </div>
+    <div class="hl">
+      <article>
+        <h3>MIRA</h3>
+        <span class="role">Framework</span>
+        <p>Dialogue, social behavior, and co-speech motion, coordinated through an embodiment cue.</p>
+      </article>
+      <article>
+        <h3>CORTEX</h3>
+        <span class="role">Interaction policy</span>
+        <p>Dual-timescale control for streaming replies, turn admission, and interruption.</p>
+      </article>
+      <article>
+        <h3>ROSCO</h3>
+        <span class="role">Streaming motion</span>
+        <p>Speech-to-joint diffusion that commits only a short, cancellable motion prefix.</p>
+      </article>
+      <article>
+        <h3>Astribot S1</h3>
+        <span class="role">Real-robot deployment</span>
+        <p>Physical tests of motion quality, streaming latency, and interruption safety.</p>
+      </article>
     </div>
   </section>
 
@@ -282,7 +291,7 @@
 
   <!-- Video -->
   <section id="video">
-    <h2>Video</h2>
+    <h2>Social Behaviors</h2>
     <p class="desc" style="margin-bottom:16px;">
       Discrete social behaviors on the Astribot S1 — greeting, listening, and expressive reactions
       executed from pre-validated action libraries.
@@ -294,10 +303,6 @@
           <video controls playsinline preload="auto"></video>
         </div>
         <button class="vidswap-arrow" type="button" data-dir="1" aria-label="Next">&#10095;</button>
-      </div>
-      <div class="vidswap-seekrow">
-        <input class="vidswap-seek" type="range" min="0" max="0" value="0" step="0.1" aria-label="Seek">
-        <span class="vidswap-time">0:00 / 0:00</span>
       </div>
       <div class="vidswap-tabs"></div>
     </div>
@@ -317,10 +322,6 @@
           <video controls playsinline preload="auto"></video>
         </div>
         <button class="vidswap-arrow" type="button" data-dir="1" aria-label="Next">&#10095;</button>
-      </div>
-      <div class="vidswap-seekrow">
-        <input class="vidswap-seek" type="range" min="0" max="0" value="0" step="0.1" aria-label="Seek">
-        <span class="vidswap-time">0:00 / 0:00</span>
       </div>
       <div class="vidswap-tabs"></div>
     </div>
@@ -356,10 +357,7 @@
     if (!root) return;
     var video = root.querySelector('video');
     var tabs = root.querySelector('.vidswap-tabs');
-    var slider = root.querySelector('.vidswap-seek');
-    var timeLabel = root.querySelector('.vidswap-time');
     var i = 0;
-    var dragging = false;
     var blobUrl = null;
     var blobFor = '';
 
@@ -371,18 +369,6 @@
       tabs.appendChild(btn);
     });
 
-    function fmt(t){
-      t = Math.max(0, Math.floor(t || 0));
-      return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0');
-    }
-    function updateTime(){
-      var dur = isFinite(video.duration) ? video.duration : 0;
-      if (!dragging){
-        slider.max = dur || 0;
-        slider.value = video.currentTime || 0;
-      }
-      timeLabel.textContent = fmt(video.currentTime) + ' / ' + fmt(dur);
-    }
     function canSeek(){
       var dur = video.duration || 0;
       return dur > 0 && video.seekable.length && video.seekable.end(video.seekable.length - 1) >= dur * 0.8;
@@ -401,7 +387,6 @@
           video.removeEventListener('loadedmetadata', onReady);
           if (t) video.currentTime = t;
           if (playing) video.play().catch(function(){});
-          updateTime();
         });
       }).catch(function(){ blobFor = ''; });
     }
@@ -416,25 +401,10 @@
       Array.prototype.forEach.call(tabs.children, function(btn, idx){
         btn.classList.toggle('active', idx === i);
       });
-      updateTime();
     }
 
     video.addEventListener('loadedmetadata', function(){
-      updateTime();
       if (!canSeek()) loadAsBlob(items[i].src);
-    });
-    video.addEventListener('durationchange', updateTime);
-    video.addEventListener('timeupdate', updateTime);
-    slider.addEventListener('pointerdown', function(){ dragging = true; });
-    slider.addEventListener('pointerup', function(){ dragging = false; });
-    slider.addEventListener('input', function(){
-      dragging = true;
-      video.currentTime = Number(slider.value);
-      timeLabel.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
-    });
-    slider.addEventListener('change', function(){
-      video.currentTime = Number(slider.value);
-      dragging = false;
     });
 
     root.querySelectorAll('.vidswap-arrow').forEach(function(btn){
