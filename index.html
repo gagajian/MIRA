@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIRA: Real-Time Full-Duplex Human–Robot Interaction for Embodied Companions</title>
+<meta name="description" content="MIRA — a unified framework for real-time embodied companion interaction. Coordinating dialogue decisions, social behaviors, and streaming co-speech motion through an explicit embodiment-cue interface.">
+<style>
+  :root{
+    --ink:#20262b;
+    --muted:#6b757c;
+    --blue:#2f6fb2;
+    --coral:#d2694f;
+    --line:#e4e8eb;
+    --bg:#ffffff;
+    --soft:#f6f8fa;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","PingFang SC","Microsoft YaHei",Arial,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,.92);
+    backdrop-filter:saturate(180%) blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;height:56px;justify-content:space-between;}
+  nav .brand{font-weight:700;letter-spacing:.3px;color:var(--ink);}
+  nav .links{display:flex;gap:22px;font-size:14px;}
+  nav .links a{color:var(--muted);}
+  nav .links a:hover{color:var(--blue);text-decoration:none;}
+
+  /* ---------- Header ---------- */
+  header{padding:54px 0 16px;text-align:center;}
+  .venue{
+    display:inline-block;font-size:14px;font-weight:600;letter-spacing:.4px;
+    color:var(--coral);border:1px solid var(--coral);border-radius:999px;
+    padding:4px 14px;margin-bottom:22px;background:#fdf7f4;
+  }
+  h1{font-size:34px;line-height:1.25;font-weight:800;letter-spacing:.2px;margin-bottom:14px;}
+  h1 .sub{font-weight:600;color:var(--muted);font-size:22px;display:block;margin-top:6px;}
+  .authors{font-size:17px;margin:10px 0 6px;}
+  .authors a{margin:0 4px;}
+  .affil{font-size:15px;color:var(--muted);margin-top:8px;}
+
+  .links-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:34px 0 8px;}
+  .links-btns a{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--soft);border:1px solid var(--line);border-radius:8px;
+    padding:10px 18px;font-weight:600;font-size:15px;color:var(--ink);
+    transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .links-btns a:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(15,30,45,.08);border-color:var(--blue);text-decoration:none;}
+  .links-btns .soon{color:var(--muted);font-weight:500;}
+  .links-btns .tag{font-size:11px;font-weight:600;color:var(--blue);}
+
+  /* ---------- Sections ---------- */
+  section{padding:40px 0 8px;}
+  h2{font-size:24px;font-weight:700;margin:26px 0 16px;position:relative;padding-left:14px;}
+  h2::before{content:"";position:absolute;left:0;top:.18em;bottom:.18em;width:4px;border-radius:2px;background:var(--blue);}
+  .abstract p, p.desc{max-width:860px;font-size:16px;color:#33383d;text-align:justify;}
+  .lead{font-size:16.5px;max-width:900px;color:#2d3236;text-align:justify;}
+
+  figure{margin:26px 0;}
+  figure img{width:100%;border:1px solid var(--line);border-radius:10px;}
+  figcaption{font-size:14px;color:var(--muted);margin-top:10px;text-align:justify;line-height:1.55;}
+
+  /* ---------- Feature / pipeline row ---------- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .card{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:20px;}
+  .card h3{font-size:17px;margin-bottom:8px;color:var(--blue);}
+  .card p{font-size:14.5px;color:#3b4146;text-align:justify;}
+
+  /* ---------- Behavior / demo gallery ---------- */
+  .beb-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .beb{background:var(--soft);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .beb img,.beb video{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#eef1f3;}
+  .beb .lab{padding:9px 12px;font-size:14px;font-weight:600;color:var(--ink);border-top:1px solid var(--line);}
+  .longvids{display:grid;gap:24px;}
+  .longvid{background:var(--soft);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .longvid video{width:100%;display:block;background:#0d1117;aspect-ratio:16/9;object-fit:contain;}
+  .longvid .cap{padding:10px 14px;font-size:14px;font-weight:600;color:var(--ink);border-top:1px solid var(--line);}
+
+  /* ---------- Citation ---------- */
+  .cite pre{
+    background:#141a1f;color:#e6edf3;border-radius:10px;
+    padding:20px 22px;overflow-x:auto;font-size:13px;line-height:1.6;
+  }
+  .cite .comment{color:#7d8590;}
+  .cite .kw{color:#79b8ff;}
+
+  footer{
+    margin-top:50px;border-top:1px solid var(--line);
+    padding:28px 0 44px;text-align:center;color:var(--muted);font-size:14px;
+  }
+  footer a{color:var(--blue);}
+
+  @media (max-width:760px){
+    h1{font-size:27px;}
+    h1 .sub{font-size:18px;}
+    .grid2,.beb-row{grid-template-columns:1fr;}
+    .links-btns a{flex:1 1 40%;justify-content:center;}
+    nav .links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">MIRA</a>
+    <div class="links">
+      <a href="#abstract">Abstract</a>
+      <a href="#overview">System</a>
+      <a href="#highlights">Highlights</a>
+      <a href="#demo">Demos</a>
+      <a href="#video">Video</a>
+      <a href="#citation">Citation</a>
+    </div>
+  </div>
+</nav>
+
+<header id="top">
+  <div class="wrap">
+    <span class="venue">Real-Time Embodied Companion Interaction</span>
+    <h1>
+      MIRA: Real-Time Full-Duplex Human–Robot Interaction for Embodied Companions
+      <span class="sub">Full-Duplex · Streaming Co-Speech Motion · Embodiment Cues</span>
+    </h1>
+    <p class="authors">
+      <a href="#">Author1</a>, <a href="#">Author2</a>, <a href="#">Author3</a>, <a href="#">Author4</a>
+    </p>
+    <p class="affil">International Digital Economy Academy (IDEA)</p>
+
+    <div class="links-btns">
+      <a href="#" aria-disabled="true">📄 Paper <span class="soon">(soon)</span></a>
+      <a href="#" aria-disabled="true">💻 Code <span class="soon">(soon)</span></a>
+      <a href="#" aria-disabled="true">📦 Dataset <span class="soon">(soon)</span></a>
+      <a href="#video">▶ Video</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Figure 1 -->
+  <figure>
+    <img src="assets/mira_teaser.png" alt="MIRA system teaser">
+    <figcaption>
+      <strong>Figure 1:</strong> Real-time embodied companion interaction in <strong>MIRA</strong>.
+      Given user speech containing linguistic content and vocal affect, <strong>CORTEX</strong> infers conversational intent and context.
+      Responses are routed into two parallel pathways: discrete social behaviors (e.g. greeting, listening) execute pre-validated action libraries,
+      while open-ended speaking drives <strong>ROSCO</strong> to generate streaming, speech-synchronized motion. When a user barge-in occurs,
+      active speech and joint trajectories are immediately preempted and cancelled at the execution boundary, enabling safe physical halting
+      while retaining conversational context for subsequent turn arbitration.
+    </figcaption>
+  </figure>
+
+  <!-- Abstract -->
+  <section id="abstract">
+    <h2>Abstract</h2>
+    <p class="lead">
+      Real-time embodied companion interaction requires a robot to infer user intent from streaming speech, generate timely responses,
+      and execute expressive, interruptible motions. Existing systems typically decouple dialog orchestration from gesture synthesis,
+      relying on offline motion generation from complete audio. This separation leaves open how a deployed robot can dynamically
+      synchronize response content, prosodic timing, and physical safety under incremental inputs and uncertain turn boundaries.
+    </p>
+    <p class="lead" style="margin-top:12px;">
+      We present <strong>MIRA</strong>, a unified framework for full-duplex embodied companion interaction. Given streaming user speech,
+      dialogue history, and vocal affect, MIRA predicts both the response text and an explicit <em>embodiment cue</em>. Discrete social behaviors
+      (e.g. listening, greeting) are mapped to validated robot trajectories, while open-ended speaking is paired with streaming, co-speech motion.
+      This generative motion is governed by a <em>predict-more-than-commit</em> sliding window that provides temporal look-ahead for motion continuity
+      while limiting physical commitment to a short, cancellable prefix. Crucially, we design <strong>CORTEX</strong>, a dual-timescale interaction policy
+      that manages low-latency streaming and deliberative turn decisions, backed by a robot-side execution layer that enforces physical safety
+      constraints at the control rate. We deploy MIRA on an <strong>Astribot S1</strong> humanoid robot. Quantitative evaluations demonstrate competitive
+      audio–motion alignment relative to state-of-the-art motion-generation baselines, while real-robot deployment measurements characterize
+      streaming responsiveness and interruption handling.
+    </p>
+  </section>
+
+  <!-- Highlights / contributions -->
+  <section id="highlights">
+    <h2>Highlights</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>MIRA — Embodied interaction framework</h3>
+        <p>Coordinates dialogue decisions, social behaviors, and streaming co-speech motion through an explicit embodiment-cue interface and shared response identity.</p>
+      </div>
+      <div class="card">
+        <h3>CORTEX — Interaction controller</h3>
+        <p>Dual-timescale policy combining streaming response generation, deliberative turn admission, and local interruption handling, routing responses through the embodiment cue.</p>
+      </div>
+      <div class="card">
+        <h3>ROSCO — Robotic Streaming Co-speech Generator</h3>
+        <p>A robot-native prefix-conditioned diffusion model for streaming audio-to-joint motion generation, guided by RHPC to separate motion prediction from incremental physical emission.</p>
+      </div>
+      <div class="card">
+        <h3>Physical deployment on Astribot S1</h3>
+        <p>Validates motion quality, streaming performance, behavior coordination, and interruption handling in real-world human–robot interaction.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- System overview -->
+  <section id="overview">
+    <h2>System Overview</h2>
+    <figure>
+      <img src="assets/cadence_system.png" alt="MIRA system overview">
+      <figcaption>
+        <strong>Figure 2:</strong> Overview of MIRA. CORTEX combines streaming response generation with deliberative turn arbitration,
+        separates an embodiment cue from the spoken response, and streams synthesized audio to ROSCO, a prefix-conditioned diffusion
+        model that generates robot joint trajectories while RHPC bounds physical commitment.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- Social behaviors -->
+  <section id="demo">
+    <h2>Social Behaviors</h2>
+    <div class="beb-row">
+      <div class="beb">
+        <video src="assets/videos/dance.mp4" autoplay muted loop playsinline></video>
+        <div class="lab">Dance</div>
+      </div>
+      <div class="beb">
+        <video src="assets/videos/good_news.mp4" autoplay muted loop playsinline></video>
+        <div class="lab">Good News</div>
+      </div>
+      <div class="beb">
+        <video src="assets/videos/sajiao.mp4" autoplay muted loop playsinline></video>
+        <div class="lab">撒娇 (Coquettish)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video -->
+  <section id="video">
+    <h2>Video</h2>
+    <p class="desc" style="margin-bottom:16px;">
+      Real-time full-duplex interaction on the Astribot S1 — including streaming co-speech motion,
+      social behaviors, and user barge-in interruption. Long-form demos below.
+    </p>
+    <div class="longvids">
+      <div class="longvid">
+        <video src="assets/videos/movie.mp4" controls playsinline preload="metadata"></video>
+        <div class="cap">Movie</div>
+      </div>
+      <div class="longvid">
+        <video src="assets/videos/ignore.mp4" controls playsinline preload="metadata"></video>
+        <div class="cap">Ignore</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Citation -->
+  <section id="citation" class="cite">
+    <h2>BibTeX</h2>
+    <pre><span class="comment">@misc</span>{mira2026,
+  <span class="kw">title</span>={MIRA: Real-Time Full-Duplex Human--Robot Interaction for Embodied Companions},
+  <span class="kw">author</span>={Author1 and Author2 and Author3 and Author4},
+  <span class="kw">affiliation</span>={International Digital Economy Academy},
+  <span class="kw">year</span>={2026},
+  <span class="kw">note</span>={Project homepage: \url{https://your-username.github.io/MIRA}}
+}</pre>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    MIRA · International Digital Economy Academy (IDEA) &middot;
+    <a href="#">Homepage</a> &middot; <a href="#">Paper</a> &middot; <a href="#">Code</a>
+  </div>
+</footer>
+
+</body>
+</html>
