@@ -15,7 +15,8 @@
     --bg:#ffffff;
     --soft:#f6f8fa;
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","PingFang SC","Microsoft YaHei",Arial,sans-serif;
@@ -82,15 +83,54 @@
   .card h3{font-size:17px;margin-bottom:8px;color:var(--blue);}
   .card p{font-size:14.5px;color:#3b4146;text-align:justify;}
 
-  /* ---------- Behavior / demo gallery ---------- */
-  .beb-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-  .beb{background:var(--soft);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
-  .beb img,.beb video{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#eef1f3;}
-  .beb .lab{padding:9px 12px;font-size:14px;font-weight:600;color:var(--ink);border-top:1px solid var(--line);}
-  .longvids{display:grid;gap:24px;}
-  .longvid{background:var(--soft);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
-  .longvid video{width:100%;display:block;background:#0d1117;aspect-ratio:16/9;object-fit:contain;}
-  .longvid .cap{padding:10px 14px;font-size:14px;font-weight:600;color:var(--ink);border-top:1px solid var(--line);}
+  /* ---------- Teaser clips / video swap ---------- */
+  .teaser-clips{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0 0;}
+  .teaser-clips video{
+    width:100%;aspect-ratio:1/1;object-fit:cover;object-position:center;
+    display:block;border:1px solid var(--line);border-radius:10px;background:#eef1f3;
+  }
+  .vidswap{margin-top:4px;}
+  .vidswap-frame{display:flex;align-items:center;gap:12px;}
+  .vidswap-stage{
+    flex:1;min-width:0;background:#0d1117;border:1px solid var(--line);
+    border-radius:12px;aspect-ratio:16/9;position:relative;
+  }
+  .vidswap-stage video{
+    width:100%;height:100%;display:block;object-fit:contain;background:#0d1117;
+    border-radius:12px;
+  }
+  .vidswap-arrow{
+    flex:0 0 auto;width:44px;height:44px;border-radius:50%;
+    border:1px solid var(--line);background:var(--soft);color:var(--ink);
+    font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:background .15s,color .15s,border-color .15s;
+  }
+  .vidswap-arrow:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+  .vidswap-seekrow{display:flex;align-items:center;gap:12px;margin-top:12px;}
+  .vidswap-seek{
+    -webkit-appearance:none;appearance:none;flex:1;height:28px;margin:0;
+    background:transparent;outline:none;cursor:pointer;
+  }
+  .vidswap-seek::-webkit-slider-runnable-track{
+    height:8px;border-radius:999px;background:var(--line);
+  }
+  .vidswap-seek::-moz-range-track{
+    height:8px;border-radius:999px;background:var(--line);
+  }
+  .vidswap-seek::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;
+    background:var(--ink);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:grab;
+  }
+  .vidswap-seek::-moz-range-thumb{
+    width:18px;height:18px;border-radius:50%;background:var(--ink);border:2px solid #fff;cursor:grab;
+  }
+  .vidswap-time{font-size:13px;color:var(--muted);min-width:96px;font-variant-numeric:tabular-nums;}
+  .vidswap-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px;}
+  .vidswap-tabs button{
+    border:1px solid var(--line);background:var(--soft);color:var(--muted);
+    border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600;cursor:pointer;
+  }
+  .vidswap-tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink);}
 
   /* ---------- Citation ---------- */
   .cite pre{
@@ -109,7 +149,8 @@
   @media (max-width:760px){
     h1{font-size:27px;}
     h1 .sub{font-size:18px;}
-    .grid2,.beb-row{grid-template-columns:1fr;}
+    .grid2,.teaser-clips{grid-template-columns:1fr;}
+    .vidswap-arrow{width:36px;height:36px;}
     .links-btns a{flex:1 1 40%;justify-content:center;}
     nav .links{display:none;}
   }
@@ -124,8 +165,8 @@
       <a href="#abstract">Abstract</a>
       <a href="#overview">System</a>
       <a href="#highlights">Highlights</a>
-      <a href="#demo">Demos</a>
       <a href="#video">Video</a>
+      <a href="#long-dialog">Long Dialog</a>
       <a href="#citation">Citation</a>
     </div>
   </div>
@@ -156,7 +197,12 @@
 
   <!-- Figure 1 -->
   <figure>
-    <img src="assets/mira_teaser.png" alt="MIRA system teaser">
+    <img src="assets/mira_teaser.png?v=colorful" alt="MIRA system teaser">
+    <div class="teaser-clips">
+      <video src="assets/videos/dance.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <video src="assets/videos/good_news.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <video src="assets/videos/sajiao.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    </div>
     <figcaption>
       <strong>Figure 1:</strong> Real-time embodied companion interaction in <strong>MIRA</strong>.
       Given user speech containing linguistic content and vocal affect, <strong>CORTEX</strong> infers conversational intent and context.
@@ -225,41 +271,49 @@
     </figure>
   </section>
 
-  <!-- Social behaviors -->
-  <section id="demo">
-    <h2>Social Behaviors</h2>
-    <div class="beb-row">
-      <div class="beb">
-        <video src="assets/videos/dance.mp4" autoplay muted loop playsinline></video>
-        <div class="lab">Dance</div>
-      </div>
-      <div class="beb">
-        <video src="assets/videos/good_news.mp4" autoplay muted loop playsinline></video>
-        <div class="lab">Good News</div>
-      </div>
-      <div class="beb">
-        <video src="assets/videos/sajiao.mp4" autoplay muted loop playsinline></video>
-        <div class="lab">撒娇 (Coquettish)</div>
-      </div>
-    </div>
-  </section>
-
   <!-- Video -->
   <section id="video">
     <h2>Video</h2>
     <p class="desc" style="margin-bottom:16px;">
-      Real-time full-duplex interaction on the Astribot S1 — including streaming co-speech motion,
-      social behaviors, and user barge-in interruption. Long-form demos below.
+      Discrete social behaviors on the Astribot S1 — greeting, listening, and expressive reactions
+      executed from pre-validated action libraries.
     </p>
-    <div class="longvids">
-      <div class="longvid">
-        <video src="assets/videos/movie.mp4" controls playsinline preload="metadata"></video>
-        <div class="cap">Movie</div>
+    <div class="vidswap" id="videoCarousel">
+      <div class="vidswap-frame">
+        <button class="vidswap-arrow" type="button" data-dir="-1" aria-label="Previous">&#10094;</button>
+        <div class="vidswap-stage">
+          <video controls playsinline preload="auto"></video>
+        </div>
+        <button class="vidswap-arrow" type="button" data-dir="1" aria-label="Next">&#10095;</button>
       </div>
-      <div class="longvid">
-        <video src="assets/videos/ignore.mp4" controls playsinline preload="metadata"></video>
-        <div class="cap">Ignore</div>
+      <div class="vidswap-seekrow">
+        <input class="vidswap-seek" type="range" min="0" max="0" value="0" step="0.1" aria-label="Seek">
+        <span class="vidswap-time">0:00 / 0:00</span>
       </div>
+      <div class="vidswap-tabs"></div>
+    </div>
+  </section>
+
+  <!-- Long dialog -->
+  <section id="long-dialog">
+    <h2>Long Dialog</h2>
+    <p class="desc" style="margin-bottom:16px;">
+      Real-time full-duplex interaction on the Astribot S1 — including streaming co-speech motion
+      and user barge-in interruption.
+    </p>
+    <div class="vidswap" id="dialogCarousel">
+      <div class="vidswap-frame">
+        <button class="vidswap-arrow" type="button" data-dir="-1" aria-label="Previous">&#10094;</button>
+        <div class="vidswap-stage">
+          <video controls playsinline preload="auto"></video>
+        </div>
+        <button class="vidswap-arrow" type="button" data-dir="1" aria-label="Next">&#10095;</button>
+      </div>
+      <div class="vidswap-seekrow">
+        <input class="vidswap-seek" type="range" min="0" max="0" value="0" step="0.1" aria-label="Seek">
+        <span class="vidswap-time">0:00 / 0:00</span>
+      </div>
+      <div class="vidswap-tabs"></div>
     </div>
   </section>
 
@@ -283,6 +337,117 @@
     <a href="#">Homepage</a> &middot; <a href="#">Paper</a> &middot; <a href="#">Code</a>
   </div>
 </footer>
+
+<script>
+  document.querySelectorAll('.teaser-clips video').forEach(function(v){
+    v.muted = true;
+    v.play().catch(function(){});
+  });
+
+  function initCarousel(root, items){
+    if (!root) return;
+    var video = root.querySelector('video');
+    var tabs = root.querySelector('.vidswap-tabs');
+    var slider = root.querySelector('.vidswap-seek');
+    var timeLabel = root.querySelector('.vidswap-time');
+    var i = 0;
+    var dragging = false;
+    var blobUrl = null;
+    var blobFor = '';
+
+    items.forEach(function(item, idx){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = item.title || ('Clip ' + (idx + 1));
+      btn.addEventListener('click', function(){ show(idx); });
+      tabs.appendChild(btn);
+    });
+
+    function fmt(t){
+      t = Math.max(0, Math.floor(t || 0));
+      return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0');
+    }
+    function updateTime(){
+      var dur = isFinite(video.duration) ? video.duration : 0;
+      if (!dragging){
+        slider.max = dur || 0;
+        slider.value = video.currentTime || 0;
+      }
+      timeLabel.textContent = fmt(video.currentTime) + ' / ' + fmt(dur);
+    }
+    function canSeek(){
+      var dur = video.duration || 0;
+      return dur > 0 && video.seekable.length && video.seekable.end(video.seekable.length - 1) >= dur * 0.8;
+    }
+    function loadAsBlob(src){
+      if (blobFor === src) return;
+      blobFor = src;
+      fetch(src).then(function(res){ return res.blob(); }).then(function(blob){
+        if (items[i].src !== src) return;
+        if (blobUrl) URL.revokeObjectURL(blobUrl);
+        blobUrl = URL.createObjectURL(blob);
+        var t = video.currentTime;
+        var playing = !video.paused;
+        video.src = blobUrl;
+        video.addEventListener('loadedmetadata', function onReady(){
+          video.removeEventListener('loadedmetadata', onReady);
+          if (t) video.currentTime = t;
+          if (playing) video.play().catch(function(){});
+          updateTime();
+        });
+      }).catch(function(){ blobFor = ''; });
+    }
+
+    function show(n){
+      i = (n + items.length) % items.length;
+      video.pause();
+      if (blobUrl){ URL.revokeObjectURL(blobUrl); blobUrl = null; }
+      blobFor = '';
+      video.src = items[i].src;
+      video.load();
+      Array.prototype.forEach.call(tabs.children, function(btn, idx){
+        btn.classList.toggle('active', idx === i);
+      });
+      updateTime();
+    }
+
+    video.addEventListener('loadedmetadata', function(){
+      updateTime();
+      if (!canSeek()) loadAsBlob(items[i].src);
+    });
+    video.addEventListener('durationchange', updateTime);
+    video.addEventListener('timeupdate', updateTime);
+    slider.addEventListener('pointerdown', function(){ dragging = true; });
+    slider.addEventListener('pointerup', function(){ dragging = false; });
+    slider.addEventListener('input', function(){
+      dragging = true;
+      video.currentTime = Number(slider.value);
+      timeLabel.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
+    });
+    slider.addEventListener('change', function(){
+      video.currentTime = Number(slider.value);
+      dragging = false;
+    });
+
+    root.querySelectorAll('.vidswap-arrow').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        show(i + Number(btn.getAttribute('data-dir')));
+      });
+    });
+
+    show(0);
+  }
+
+  initCarousel(document.getElementById('videoCarousel'), [
+    {src:'assets/videos/dance.mp4'},
+    {src:'assets/videos/good_news.mp4'},
+    {src:'assets/videos/sajiao.mp4'}
+  ]);
+  initCarousel(document.getElementById('dialogCarousel'), [
+  {src:'assets/videos/ignore.mp4'},
+  {src:'assets/videos/movie.mp4'},    
+  ]);
+</script>
 
 </body>
 </html>
