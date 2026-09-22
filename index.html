@@ -232,20 +232,28 @@
     <h2>Abstract</h2>
     <p class="lead">
       Real-time embodied companion interaction requires a robot to infer user intent from streaming speech, generate timely responses,
-      and execute expressive, interruptible motions. Existing systems typically decouple dialog orchestration from gesture synthesis,
+      and execute expressive, interruptible motions. Existing systems typically decouple dialogue orchestration from gesture synthesis,
       relying on offline motion generation from complete audio. This separation leaves open how a deployed robot can dynamically
       synchronize response content, prosodic timing, and physical safety under incremental inputs and uncertain turn boundaries.
+      We present <strong>MIRA</strong>, a unified framework for real-time full-duplex embodied companion interaction.
+      Given streaming user speech, dialogue history, and vocal affect, MIRA predicts both the response text and an explicit
+      <em>embodiment cue</em> that routes the response to the appropriate physical behavior.
+      Discrete social behaviors (e.g. listening and greeting) are mapped to validated robot trajectories,
+      while speaking responses are accompanied by streaming, generative co-speech motion.
     </p>
     <p class="lead" style="margin-top:12px;">
-      We present <strong>MIRA</strong>, a unified framework for full-duplex embodied companion interaction. Given streaming user speech,
-      dialogue history, and vocal affect, MIRA predicts both the response text and an explicit <em>embodiment cue</em>. Discrete social behaviors
-      (e.g. listening, greeting) are mapped to validated robot trajectories, while open-ended speaking is paired with streaming, co-speech motion.
-      This generative motion is governed by a <em>predict-more-than-commit</em> sliding window that provides temporal look-ahead for motion continuity
-      while limiting physical commitment to a short, cancellable prefix. Crucially, we design <strong>CORTEX</strong>, a dual-timescale interaction policy
-      that manages low-latency streaming and deliberative turn decisions, backed by a robot-side execution layer that enforces physical safety
-      constraints at the control rate. We deploy MIRA on an <strong>Astribot S1</strong> humanoid robot. Quantitative evaluations demonstrate competitive
-      audio–motion alignment relative to state-of-the-art motion-generation baselines, while real-robot deployment measurements characterize
-      streaming responsiveness and interruption handling.
+      For co-speech motion generation, we propose <strong>ROSCO</strong>, a prefix-conditioned diffusion model for streaming audio-to-joint motion generation.
+      We further design <strong>RHPC</strong>, an inference scheme that maintains a sufficiently long temporal context for motion prediction
+      while bounding physical commitment to a short, interruptible prefix.
+    </p>
+    <p class="lead" style="margin-top:12px;">
+      At the interaction level, we design <strong>CORTEX</strong>, a dual-timescale interaction policy that combines low-latency barge-in preemption
+      and streaming response generation with deliberative turn decisions, backed by a robot-side execution layer that enforces physical safety
+      constraints during execution. MIRA is deployed on an <strong>Astribot S1</strong> humanoid robot.
+    </p>
+    <p class="lead" style="margin-top:12px;">
+      Quantitative evaluations demonstrate competitive audio-motion alignment relative to state-of-the-art motion-generation baselines,
+      while real-robot deployment measurements characterize streaming responsiveness and interruption handling.
     </p>
   </section>
 
